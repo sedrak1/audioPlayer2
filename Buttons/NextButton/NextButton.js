@@ -1,7 +1,6 @@
 
 export default class NextButton {
     constructor(parent){
-        console.log(parent);
         this.parent = parent
         
         this.next = document.createElement("button");

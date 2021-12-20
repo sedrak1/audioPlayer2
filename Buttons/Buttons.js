@@ -18,9 +18,9 @@ export default class Buttons {
         // this.line = new DrawLine(this.audios, this.next)
         
         this.parent = document.createElement("div");
-        this.parent.append(this.prev, this.playPause, this.next.next);
+        this.parent.append(this.prev.prev, this.playPause, this.next.next);
         this.parent.className = "songInfo"
-        this.prev.className = "btn"
+        this.prev.prev.className = "btn"
         this.next.next.className = "btn"
         return this.parent
     }
