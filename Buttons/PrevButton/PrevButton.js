@@ -2,7 +2,8 @@
 export default class PrevButton {
     constructor(parent){
         this.parent = parent
-        
+        this.songName = document.createElement("p")
+        // this.parent.appendChild(this.songName)
         this.prev = document.createElement("button");
         this.prev.onclick = () => this.prevSong();
         this.i = document.createElement("i")
@@ -14,12 +15,17 @@ export default class PrevButton {
     }
 
     prevSong() {
+        this.enableBtn(this.parent.next.next)
         if (this.parent.currentSong <= 1) {
             this.disableBtn(this.prev);
         }
+
         this.parent.audios[this.parent.currentSong].pause();
         this.parent.currentSong --
+        this.parent.getSongName()
         if(this.parent.isPlaying){
+            this.parent.audios[this.parent.currentSong].currentTime = 0;
+
             this.parent.audios[this.parent.currentSong].play();
         }
     }

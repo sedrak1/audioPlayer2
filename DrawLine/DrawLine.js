@@ -1,16 +1,15 @@
 import AudioManager from "../AudioManager/AudioManager.js"
 
 export default class DrawLine{
-    constructor(audio, nextBtn, parent, songs, currentSong, isPlaying){
-        this.isPlaying = isPlaying
-        this.songs = songs
-        this.currentSong = currentSong
+    constructor(parent){
         this.parent = parent
-        this.nextBtn = nextBtn
-        this.audio = audio
-        this.currentTime = this.audio.currentTime
-        this.currentSongDuration = 1
-        this.getCurrentSongDuration()
+        this.isPlaying = this.parent.isPlaying
+        this.songs = this.parent.songs
+        this.currentSong = this.parent.currentSong
+        this.nextBtn = this.parent.next.next
+        this.audio = this.parent.audio
+        this.currentTime = this.parent.audios[this.currentSong].currentTime
+        this.currentSongDuration 
         this.line = document.createElement("canvas")
         this.line.className = "line"
         this.line.width = 300
@@ -18,20 +17,28 @@ export default class DrawLine{
         this.line.onclick = () => this.selectTime()
         this.context = this.line.getContext("2d")
         this.end = 0
+        this.getCurrentSongDuration()
+        this.selectTime()
         this.loop()
+
         return this.line
     }
     
     getCurrentSongDuration() {
-        this.audio.onloadedmetadata = () => {
-            this.currentSongDuration = this.audio.duration;
+        this.parent.audios[this.currentSong].onloadedmetadata = () => {
+            this.currentSongDuration = this.parent.audios[this.currentSong].duration;
         };
+    }
+
+    getCurrentTime(){
+        return this.parent.audios[this.parent.currentSong].currentTime
     }
     
     
     drawLine() {
         this.clearLine(this.line);
-        this.end = this.audio.currentTime * this.line.width / this.currentSongDuration
+        console.log(this.getCurrentTime());
+        this.end = this.getCurrentTime() * this.line.width / this.currentSongDuration
         // console.log(this.audio.currentTime);
         this.context.moveTo(0, this.line.height / 2);
         this.context.lineTo(this.end, this.line.height / 2);
@@ -52,19 +59,13 @@ export default class DrawLine{
         });
         
         this.drawLine();
+        // console.log(this.currentSongDuration);
         if (
-            this.audio.currentTime ===
+            this.getCurrentTime() ===
                 this.currentSongDuration &&
             !this.nextBtn.disabled
         ) {
-            this.parent.innerHTML = "";
-            this.audio = new AudioManager(this.songs,this.currentSong + 1, true,
-                ("http://localhost/audioPlayer/music/" + this.songs[this.currentSong + 1])
-                .split(" ")
-                .join("%20"),
-                this.parent).createAudio();
-
-            this.currentSong++;
+            this.parent.next.nextSong()
         
         }
     }
@@ -73,22 +74,21 @@ export default class DrawLine{
 
         this.line.onmousedown = (e) => {
             let checkedTime = (e.pageX - this.line.offsetLeft) / this.line.width;
-            this.audio.currentTime =
+            this.parent.audios[this.parent.currentSong].currentTime =
                 this.currentSongDuration * checkedTime;
             this.mouseDown = true;
             this.drawLine()
         };
-
-        this.parent.onmousemove = (event) => {
+        console.log(this.parent.parent);
+        this.parent.parent.onmousemove = (event) => {
             if (this.mouseDown) {
                 let checkedTime = (event.pageX - this.line.offsetLeft) / this.line.width;
-                this.audio.currentTime =
+                this.parent.audios[this.parent.currentSong].currentTime =
                     this.currentSongDuration * checkedTime;
             }
             
         };
-        console.log(this.parent.onmousedout);
-        this.parent.onmouseup = () => {
+        this.parent.parent.onmouseup = () => {
             this.mouseDown = false;
         };
     }

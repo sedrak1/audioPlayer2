@@ -14,17 +14,21 @@ export default class NextButton {
     }
 
     nextSong() {
-        if (this.parent.currentSong === this.parent.songs.length - 1) {
+        this.enableBtn(this.parent.prev.prev)
+        if (this.parent.currentSong === this.parent.songs.length - 2) {
             this.disableBtn(this.next);
-        }else{
-            console.log(this.parent.currentSong);
-            this.parent.audios[this.parent.currentSong].pause();
-            this.parent.currentSong ++
-            if(this.parent.isPlaying){
-                this.parent.audios[this.parent.currentSong].play();
-
-            }
         }
+        console.log(this.parent.currentSong);
+        this.parent.audios[this.parent.currentSong].pause();
+        this.parent.currentSong ++
+        this.parent.getSongName()
+
+        if(this.parent.isPlaying){
+            this.parent.audios[this.parent.currentSong].currentTime = 0;
+            this.parent.audios[this.parent.currentSong].play();
+
+        }
+        
     }
 
     disableBtn(btn) {
