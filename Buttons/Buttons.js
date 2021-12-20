@@ -6,29 +6,31 @@ import PrevButton from "./PrevButton/PrevButton.js";
 export default class Buttons {
     constructor(songs, currentSong, isPlaying, audios, audioParent) {
         this.songs = songs;
-        this.audios = audios
-        this.audioParent = audioParent
+        this.audios = audios;
+        this.audioParent = audioParent;
         this.currentSong = currentSong;
         this.isPlaying = isPlaying;
         this.parent = document.createElement("div");
-        this.songName = document.createElement("p")
-        this.getSongName()
-        
-        this.prev = new PrevButton(this)
+        this.songName = document.createElement("p");
+        this.getSongName();
+
+        this.prev = new PrevButton(this);
         this.playPause = new PlayPauseButton(this);
-        this.next = new NextButton(this)
-        this.line = new DrawLine(this)
-        
-        this.parent.append(this.line)
-        this.parent.append(this.songName)
+        this.next = new NextButton(this);
+        this.line = new DrawLine(this);
+
+        this.parent.append(this.line);
+        this.parent.append(this.songName);
         this.parent.append(this.prev.prev, this.playPause, this.next.next);
-        this.parent.className = "songInfo"
-        this.prev.prev.className = "btn"
-        this.next.next.className = "btn"
-        return this.parent
+        this.parent.className = "songInfo";
+        this.prev.prev.className = "btn";
+        this.next.next.className = "btn";
+        return this.parent;
     }
     getSongName() {
-        this.songName.textContent = this.songs[this.currentSong].substring(0, this.songs[this.currentSong].length - 4)
-
+        this.songName.textContent = this.songs[this.currentSong].substring(
+            0,
+            this.songs[this.currentSong].length - 4
+        );
     }
 }

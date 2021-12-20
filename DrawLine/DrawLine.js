@@ -37,9 +37,7 @@ export default class DrawLine{
     
     drawLine() {
         this.clearLine(this.line);
-        console.log(this.getCurrentTime());
         this.end = this.getCurrentTime() * this.line.width / this.currentSongDuration
-        // console.log(this.audio.currentTime);
         this.context.moveTo(0, this.line.height / 2);
         this.context.lineTo(this.end, this.line.height / 2);
         this.context.lineWidth = 3;
@@ -59,7 +57,6 @@ export default class DrawLine{
         });
         
         this.drawLine();
-        // console.log(this.currentSongDuration);
         if (
             this.getCurrentTime() ===
                 this.currentSongDuration &&
@@ -79,7 +76,7 @@ export default class DrawLine{
             this.mouseDown = true;
             this.drawLine()
         };
-        console.log(this.parent.parent);
+
         this.parent.parent.onmousemove = (event) => {
             if (this.mouseDown) {
                 let checkedTime = (event.pageX - this.line.offsetLeft) / this.line.width;
