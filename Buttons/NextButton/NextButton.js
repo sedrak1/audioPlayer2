@@ -22,6 +22,8 @@ export default class NextButton {
         this.parent.audios[this.parent.currentSong].pause();
         this.parent.currentSong++;
         this.parent.getSongName();
+        this.parent.getCurrentSongDuration()
+
 
         if (this.parent.isPlaying) {
             this.parent.audios[this.parent.currentSong].currentTime = 0;

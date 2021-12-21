@@ -13,11 +13,12 @@ export default class Buttons {
         this.parent = document.createElement("div");
         this.songName = document.createElement("p");
         this.getSongName();
-
+        
         this.prev = new PrevButton(this);
         this.playPause = new PlayPauseButton(this);
         this.next = new NextButton(this);
         this.line = new DrawLine(this);
+        this.currentSongDuration = 0
 
         this.parent.append(this.line);
         this.parent.append(this.songName);
@@ -27,10 +28,17 @@ export default class Buttons {
         this.next.next.className = "btn";
         return this.parent;
     }
+
     getSongName() {
         this.songName.textContent = this.songs[this.currentSong].substring(
             0,
             this.songs[this.currentSong].length - 4
         );
     }
+
+    getCurrentSongDuration() {
+       
+        this.currentSongDuration = this.audios[this.currentSong].duration
+    }
+
 }
