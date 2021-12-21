@@ -1,7 +1,7 @@
 import Buttons from "./Buttons/Buttons.js";
 import AudioManager from "./AudioManager/AudioManager.js";
 import DrawLine from "./DrawLine/DrawLine.js";
-import NextButton from "./Buttons/NextButton/NextButton.js";
+import RotatingVinil from "./RotateingVinil/RotatingVinil.js";
 
 class Player {
     constructor(songs) {
@@ -10,20 +10,21 @@ class Player {
         this.currentSongDuration = 0;
         this.songs = songs;
         this.parent = document.createElement("div");
-        this.audioParent = document.createElement("div");
         document.body.appendChild(this.parent);
-        document.body.appendChild(this.audioParent);
         this.audios = new AudioManager(this.songs, this.currentSong);
         this.buttons = new Buttons(
             this.songs,
             this.currentSong,
             this.isPlaying,
             this.audios,
-            this.audioParent
         );
+        // this.vinil = new RotatingVinil()
         this.parent.appendChild(this.buttons);
+        // this.parent.appendChild(this.vinil);
+        // console.log(this.vinil);
     }
 }
+
 const url = "http://localhost/audioPlayer/data.json";
 
 const request = async () => {

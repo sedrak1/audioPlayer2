@@ -6,7 +6,7 @@ export default class DrawLine{
         this.isPlaying = this.parent.isPlaying
         this.songs = this.parent.songs
         this.currentSong = this.parent.currentSong
-        this.nextBtn = this.parent.next.next
+        this.nextBtn = this.parent.next.btn
         this.audio = this.parent.audio
         this.currentTime = this.parent.audios[this.currentSong].currentTime
         this.line = document.createElement("canvas")
