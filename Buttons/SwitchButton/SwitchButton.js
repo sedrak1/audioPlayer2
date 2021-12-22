@@ -1,15 +1,13 @@
 export default class SwitchButton {
-    constructor(currentSong, songs, prevBtn, nextBtn, audios, isPlaying, songName, chnageCurrentSongNumber, getSongName, switchName) {
-        this.currentSong =  currentSong;
+    constructor(getCurrentSong, songs, oppositeActionBtn, audios, getIsPlaying, changeCurrentSongNumber, getSongName, switchName) {
+        this.getCurrentSong =  getCurrentSong;
         console.log(this.currentSong);
         this.songs = songs
-        this.prevBtn = prevBtn
-        this.nextBtn = nextBtn
+        this.oppositeActionBtn = oppositeActionBtn
         this.audios = audios
-        this.isPlaying = isPlaying
-        this.songName = songName
+        this.getIsPlaying = getIsPlaying
         this.switchName = switchName
-        this.chnageCurrentSongNumber = chnageCurrentSongNumber
+        this.changeCurrentSongNumber = changeCurrentSongNumber
         this.getSongName =  getSongName
         this.btn = document.createElement("button");
         this.i = document.createElement("i");
@@ -32,37 +30,36 @@ export default class SwitchButton {
 
     nextSong() {
         
-        this.enableBtn(this.prevBtn.btn);
+        this.enableBtn(this.oppositeActionBtn().btn);
 
-        console.log(this.currentSong);
-        if (this.currentSong === this.songs.length - 2) {
+        console.log(this.getCurrentSong());
+        if (this.getCurrentSong() === this.songs.length - 2) {
             this.disableBtn(this.btn);
         }
 
-        console.log(this.currentSong());
-        this.audios[this.currentSong()].pause();
-        this.chnageCurrentSongNumber("+");
+        this.audios[this.getCurrentSong()].pause();
+        this.changeCurrentSongNumber("+");
         this.getSongName()
-        this.audios[this.currentSong].currentTime = 0;
+        this.audios[this.getCurrentSong()].currentTime = 0;
 
-        if (this.isPlaying) {
-            this.audios[this.currentSong].play();
+        if (this.getIsPlaying()) {
+            this.audios[this.getCurrentSong()].play();
         }
     }
 
     prevSong() {
-        this.enableBtn(this.nextBtn.btn);
-        if (this.currentSong <= 1) {
+        this.enableBtn(this.oppositeActionBtn().btn);
+        if (this.getCurrentSong() <= 1) {
             this.disableBtn(this.btn);
         }
 
-        this.audios[this.currentSong].pause();
-        this.chnageCurrentSongNumber("-");
+        this.audios[this.getCurrentSong()].pause();
+        this.changeCurrentSongNumber("-");
         this.getSongName();
-        this.audios[this.currentSong].currentTime = 0;
+        this.audios[this.getCurrentSong()].currentTime = 0;
 
-        if (this.isPlaying) {
-            this.audios[this.currentSong].play();
+        if (this.getIsPlaying()) {
+            this.audios[this.getCurrentSong()].play();
         }
     }
 
