@@ -1,9 +1,9 @@
 export default class PlayButton {
-    constructor(getIsPlaying, changeIsPlaying, getCurrentSong, audios) {
+    constructor(getIsPlaying, changeIsPlaying, getCurrentSong, audio) {
         this.getIsPlaying = getIsPlaying;
         this.changeIsPlaying = changeIsPlaying
         this.getCurrentSong = getCurrentSong
-        this.audios = audios
+        this.audio = audio
 
         this.play = document.createElement("button");
         this.play.className = "btn";
@@ -39,13 +39,13 @@ export default class PlayButton {
         this.play.style.display = "none";
         this.pause.style.display = "block";
         this.changeIsPlaying()
-        this.audios[this.getCurrentSong()].play();
+        this.audio.audio.play();
     }
 
     pauseSong() {
         this.play.style.display = "block";
         this.pause.style.display = "none";
         this.changeIsPlaying();
-        this.audios[this.getCurrentSong()].pause();
+        this.audio.audio.pause();
     }
 }

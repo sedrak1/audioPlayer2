@@ -10,18 +10,18 @@ class Player {
         this.currentSongDuration = 0;
         this.songs = songs;
         this.parent = document.createElement("div");
-        document.body.appendChild(this.parent);
-        this.audios = new AudioManager(this.songs, this.currentSong);
+        this.songName = document.createElement("p");
+        
+        this.audio = new AudioManager(
+            this.songs);
+            
         this.buttons = new Buttons(
             this.songs,
-            this.currentSong,
-            this.isPlaying,
-            this.audios,
-        );
-        // this.vinil = new RotatingVinil()
+            this.audio);
+
+        document.body.appendChild(this.parent);
         this.parent.appendChild(this.buttons);
-        // this.parent.appendChild(this.vinil);
-        // console.log(this.vinil);
+        this.parent.appendChild(this.audio.audio);
     }
 }
 

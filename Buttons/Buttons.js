@@ -3,30 +3,29 @@ import PlayPauseButton from "./PlayPauseButton/PlayPauseButton.js";
 import SwitchButton from "./SwitchButton/SwitchButton.js";
 
 export default class Buttons {
-    constructor(songs, currentSong, isPlaying, audios) {
+    constructor(songs,  audio) {
         this.songs = songs;
-        this.audios = audios;
-        this.currentSong = currentSong;
-        this.isPlaying = isPlaying;
+        this.audio = audio
+        this.currentSong = 0
         this.parent = document.createElement("div");
         this.songName = document.createElement("p");
 
         this.getSongName();
                 
         this.prev = new SwitchButton(
-            this.getCurrentSong.bind(this), this.songs, this.getNextBtn.bind(this),
-            this.audios, this.getIsPlaying.bind(this), 
+            this.getCurrentSongNumber.bind(this), this.songs, this.audio, this.getNextBtn.bind(this),
+            this.getIsPlaying.bind(this), 
             this.changeCurrentSongNumber.bind(this), this.getSongName.bind(this),"prev");
 
         this.playPause = new PlayPauseButton(this.getIsPlaying.bind(this), this.changeIsPlaying.bind(this), 
-            this.getCurrentSong.bind(this), this.audios);
+            this.getCurrentSongNumber.bind(this), this.audio);
 
         this.next = new SwitchButton( 
-            this.getCurrentSong.bind(this), this.songs, this.getPrevBtn.bind(this), 
-            this.audios, this.getIsPlaying.bind(this),  
+            this.getCurrentSongNumber.bind(this), this.songs, this.audio, this.getPrevBtn.bind(this), 
+            this.getIsPlaying.bind(this),  
             this.changeCurrentSongNumber.bind(this), this.getSongName.bind(this),"next");
 
-        this.line = new DrawLine(this);
+        this.line = new DrawLine(this.getIsPlaying.bind(this), this.songs, this.getCurrentSongNumber.bind(this), this.getNextBtn.bind(this), this.audio, this.getCurrentSongDuration.bind(this), this.parent);
 
         this.currentSongDuration = 0
         
@@ -40,17 +39,18 @@ export default class Buttons {
     }
 
     getSongName() {
-        this.songName.textContent = this.songs[this.currentSong].substring(
+        this.songName.textContent = this.songs[this.getCurrentSongNumber()].substring(
             0,
-            this.songs[this.currentSong].length - 4
+            this.songs[this.getCurrentSongNumber()].length - 4
             );
     }
 
     getCurrentSongDuration() {
-        this.currentSongDuration = this.audios[this.currentSong].duration
+        this.currentSongDuration = this.audio.audio.duration
+        return this.currentSongDuration
     }
 
-    getCurrentSong(){
+    getCurrentSongNumber(){
         return this.currentSong
     }
 
@@ -60,8 +60,6 @@ export default class Buttons {
     }
 
     changeCurrentSongNumber(arg){
-        console.log(arg);
-        console.log(this.currentSong);
         if(arg === "+"){
             this.currentSong++
         }else if(arg === "-"){

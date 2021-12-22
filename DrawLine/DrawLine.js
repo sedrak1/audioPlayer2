@@ -1,19 +1,22 @@
 import AudioManager from "../AudioManager/AudioManager.js"
 
 export default class DrawLine{
-    constructor(parent){
+    constructor(getIsPlaying, songs, getCurrentSongNumber, getNextBtn, audio, getCurrentSongDuration, parent){
+        this.getIsPlaying = getIsPlaying
+        this.songs = songs
+        this.getCurrentSongNumber = getCurrentSongNumber
+        this.getNextBtn = getNextBtn
+        this.audio = audio
+        this.currentTime = this.audio.currentTime
+        this.getCurrentSongDuration = getCurrentSongDuration
         this.parent = parent
-        this.isPlaying = this.parent.isPlaying
-        this.songs = this.parent.songs
-        this.currentSong = this.parent.currentSong
-        this.nextBtn = this.parent.next.btn
-        this.audio = this.parent.audio
-        this.currentTime = this.parent.audios[this.currentSong].currentTime
+
         this.line = document.createElement("canvas")
         this.line.className = "line"
         this.line.width = 300
         this.line.height = 3
         this.line.onclick = () => this.selectTime()
+
         this.context = this.line.getContext("2d")
         this.end = 0
         this.selectTime()
@@ -23,13 +26,14 @@ export default class DrawLine{
     }
 
     getCurrentTime(){
-        return this.parent.audios[this.parent.currentSong].currentTime
+        return this.audio.audio.currentTime
     }
     
     drawLine() {
-        this.parent.getCurrentSongDuration()
+        // this.getCurrentSongDuration()
         this.clearLine(this.line);
-        this.end = this.getCurrentTime() * this.line.width / this.parent.currentSongDuration
+        this.end = this.getCurrentTime() * this.line.width / this.getCurrentSongDuration()
+
         this.context.moveTo(0, this.line.height / 2);
         this.context.lineTo(this.end, this.line.height / 2);
         this.context.lineWidth = 3;
@@ -50,11 +54,10 @@ export default class DrawLine{
         this.drawLine();
         if (
             this.getCurrentTime() ===
-                this.parent.currentSongDuration &&
-            !this.nextBtn.disabled
+                this.getCurrentSongDuration() &&
+            !this.getNextBtn().disabled
         ) {
-            this.parent.next.nextSong()
-        
+            this.getNextBtn().nextSong()
         }
     }
 
@@ -62,21 +65,21 @@ export default class DrawLine{
 
         this.line.onmousedown = (e) => {
             let checkedTime = (e.pageX - this.line.offsetLeft) / this.line.width;
-            this.parent.audios[this.parent.currentSong].currentTime =
-                this.parent.currentSongDuration * checkedTime;
+            this.audio.audio.currentTime =
+                this.getCurrentSongDuration() * checkedTime;
             this.mouseDown = true;
             this.drawLine()
         };
 
-        this.parent.parent.onmousemove = (event) => {
+        this.parent.onmousemove = (event) => {
             if (this.mouseDown) {
                 let checkedTime = (event.pageX - this.line.offsetLeft) / this.line.width;
-                this.parent.audios[this.parent.currentSong].currentTime =
-                    this.parent.currentSongDuration * checkedTime;
+                this.audio.audio.currentTime =
+                    this.getCurrentSongDuration() * checkedTime;
             }
             
         };
-        this.parent.parent.onmouseup = () => {
+        this.parent.onmouseup = () => {
             this.mouseDown = false;
         };
     }
